@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[不积跬步，无以至千里]]></title>
+  <subtitle><![CDATA[I am a slow walker , but I never walk backwards .(Abraham Lincoln , American president)]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://wwww.51iwowo.com/"/>
+  <updated>2016-07-28T05:14:38.864Z</updated>
+  <id>http://wwww.51iwowo.com/</id>
+  
+  <author>
+    <name><![CDATA[wowojyc]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[python no module named _md5 hashlib 加载报错]]></title>
+    <link href="http://wwww.51iwowo.com/2016/07/28/python_hashlib_md5/"/>
+    <id>http://wwww.51iwowo.com/2016/07/28/python_hashlib_md5/</id>
+    <published>2016-07-28T04:50:00.000Z</published>
+    <updated>2016-07-28T05:14:38.864Z</updated>
+    <content type="html"><![CDATA[<p>python no module named _md5<br>详细错误信息如下所示:</p>
+<p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/python/error%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF.jpg" alt="报错信息"><br><a id="more"></a></p>
+<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><h5 id="步骤1："><a href="#步骤1：" class="headerlink" title="步骤1："></a>步骤1：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python -v -c &quot;import hashlib&quot; 2&gt; output.txt</div></pre></td></tr></table></figure>
+<p>将import的错误信息重定向到output.txt</p>
+<h5 id="步骤2"><a href="#步骤2" class="headerlink" title="步骤2:"></a>步骤2:</h5><p>查看信息(<code>dlopen的路径信息</code>)<br><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/python/output_txt_error.jpg" alt="output.txt"></p>
+<h5 id="步骤3"><a href="#步骤3" class="headerlink" title="步骤3:"></a>步骤3:</h5><p>以步骤2中的路径信息，运行以下命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ldd /home/work/python/lib/python2.7/lib-dynload/_hashlib.so</div></pre></td></tr></table></figure></p>
+<p>输出信息为<br>   <code>libssl.so.4 =&gt; not found</code><br>表示缺少对应的so文件.</p>
+<h5 id="步骤4："><a href="#步骤4：" class="headerlink" title="步骤4："></a>步骤4：</h5><p>添加缺少的so文件(<code>请自行搜索</code>)</p>
+<blockquote>
+<p>我遇到的情况是系统中有一个libssl    .so文件，我直接新建软连接libssl     .so.4指向同样的libssl.so</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln <span class="_">-s</span> libssl.so.4 libssl.so</div></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>python no module named _md5<br>详细错误信息如下所示:</p>
+<p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/python/error%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF.jpg" alt="报错信息"><br>]]>
+    
+    </summary>
+    
+      <category term="python" scheme="http://wwww.51iwowo.com/tags/python/"/>
+    
+      <category term="python" scheme="http://wwww.51iwowo.com/categories/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[presto客户端连接超时设置]]></title>
+    <link href="http://wwww.51iwowo.com/2016/07/26/presto_client_connection_time_out/"/>
+    <id>http://wwww.51iwowo.com/2016/07/26/presto_client_connection_time_out/</id>
+    <published>2016-07-26T12:01:00.000Z</published>
+    <updated>2016-07-26T12:03:48.532Z</updated>
+    <content type="html"><![CDATA[<p>presto使用presto-cli下的<code>com.facebook.presto.cli.Presto</code>运行客户端时，如果正在调试，经常会出现以下连接超时的现象:</p>
+<p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_client/connection_timeout.jpg" alt="连接超时"></p>
+<a id="more"></a>
+<p>此时可修改源码，增加超时时间设置(<code>暂时没有找到如何通过外部设置修改</code>):</p>
+<p><code>presto-cli/QueryRunner.java/getHttpClientConfig方法</code></p>
+<p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_client/set_http_config1.jpg" alt="image"></p>
+<p>将上图中的代码修改为10，测试效果如下所示:<br><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_client/connection_timeout_2.jpg" alt="image"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>presto使用presto-cli下的<code>com.facebook.presto.cli.Presto</code>运行客户端时，如果正在调试，经常会出现以下连接超时的现象:</p>
+<p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_client/connection_timeout.jpg" alt="连接超时"></p>]]>
+    
+    </summary>
+    
+      <category term="presto" scheme="http://wwww.51iwowo.com/tags/presto/"/>
+    
+      <category term="presto" scheme="http://wwww.51iwowo.com/categories/presto/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[presto spi介绍以及Example示例]]></title>
+    <link href="http://wwww.51iwowo.com/2016/07/26/presto_spi_overview/"/>
+    <id>http://wwww.51iwowo.com/2016/07/26/presto_spi_overview/</id>
+    <published>2016-07-26T02:32:00.000Z</published>
+    <updated>2016-07-26T03:06:37.157Z</updated>
+    <content type="html"><![CDATA[<p>When you implement a new Presto plugin, you implement interfaces and override methods defined by the SPI.</p>
+<p>Plugins can provide connectors, which are the source of all data for queries in Presto. Even if your data source doesn’t have underlying tables backing it, as long as you adapt your data source to the API expected by Presto, you can write queries against this data.</p>
+<a id="more"></a>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p>The SPI source can be found in the <code>presto-spi</code> directory in the root of the Presto source tree.</p>
+<h3 id="Plugin-Metadata"><a href="#Plugin-Metadata" class="headerlink" title="Plugin Metadata"></a>Plugin Metadata</h3><p>Each plugin identifies an entry point: an implementation of the <code>Plugin</code> interface. This class name is provided to Presto via the standard <code>JavaServiceLoader</code> interface: the classpath contains a resource file named <code>com.facebook.presto.spi.Plugin in the META-INF/services</code> directory. The content of this file is a single line listing the name of the plugin class:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">com.facebook.presto.example.ExamplePlugin</div></pre></td></tr></table></figure>
+<h3 id="Plugin"><a href="#Plugin" class="headerlink" title="Plugin"></a>Plugin</h3><p>The <code>Plugin</code> interface is a good starting place for developers looking to understand the Presto SPI. The <code>getServices()</code> method is a top-level function that Presto calls to retrieve a <code>ConnectorFactory</code> when Presto is ready to create an instance of a connector to back a catalog.</p>
+<h5 id="Plugin-SPI"><a href="#Plugin-SPI" class="headerlink" title="Plugin SPI:"></a>Plugin SPI:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples1.jpg" alt="image"></p>
+<h5 id="ExamplePlugin"><a href="#ExamplePlugin" class="headerlink" title="ExamplePlugin:"></a>ExamplePlugin:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples2.jpg" alt="image"></p>
+<h3 id="ConnectorFactory"><a href="#ConnectorFactory" class="headerlink" title="ConnectorFactory"></a>ConnectorFactory</h3><p>Instances of your connector are created by a <code>ConnectorFactory</code> instance which is created when Presto calls <code>getServices()</code> on the plugin to request a service of type <code>ConnectorFactory</code>. The connector factory is a simple interface responsible for creating an instance of a <code>Connector</code>object that returns instances of the following services:</p>
+<ul>
+<li><code>ConnectorMetadata</code></li>
+<li><code>ConnectorSplitManager</code></li>
+<li><code>ConnectorHandleResolver</code></li>
+<li><code>ConnectorRecordSetProvider</code></li>
+</ul>
+<p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples3.jpg" alt="image"></p>
+<h5 id="ConnectorFactory-SPI"><a href="#ConnectorFactory-SPI" class="headerlink" title="ConnectorFactory SPI:"></a>ConnectorFactory SPI:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples4.jpg" alt="image"></p>
+<h5 id="ExampleConnectorFactory"><a href="#ExampleConnectorFactory" class="headerlink" title="ExampleConnectorFactory:"></a>ExampleConnectorFactory:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples5.jpg" alt="image"></p>
+<h3 id="ConnectorMetadata"><a href="#ConnectorMetadata" class="headerlink" title="ConnectorMetadata"></a>ConnectorMetadata</h3><p>The connector metadata interface has a large number of important methods that are responsible for allowing Presto to look at lists of schemas, lists of tables, lists of columns, and other metadata about a particular data source.</p>
+<p>This interface is too big to list in this documentation, but if you are interested in seeing strategies for implementing these methods, look at <em><code>theExample HTTP Connector</code></em> and the Cassandra connector. If your underlying data source supports schemas, tables and columns, this interface should be straightforward to implement. If you are attempting to adapt something that is not a relational database (as the Example HTTP connector does), you may need to get creative about how you map your data source to Presto’s schema, table, and column concepts.</p>
+<h5 id="important-interface"><a href="#important-interface" class="headerlink" title="important interface:"></a>important interface:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples6.jpg" alt="image"><br><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples7.jpg" alt="image"></p>
+<h3 id="ConnectorSplitManger"><a href="#ConnectorSplitManger" class="headerlink" title="ConnectorSplitManger"></a>ConnectorSplitManger</h3><p>The split manager partitions the data for a table into the individual chunks that Presto will distribute to workers for processing. For example, the Hive connector lists the files for each Hive partition and creates one or more split per file. For data sources that don’t have partitioned data, a good strategy here is to simply return a single split for the entire table. This is the strategy employed by the Example HTTP connector.</p>
+<h4 id="Interface"><a href="#Interface" class="headerlink" title="Interface:"></a>Interface:</h4><h5 id="ConnectorSplitManager"><a href="#ConnectorSplitManager" class="headerlink" title="ConnectorSplitManager"></a>ConnectorSplitManager</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples8.jpg" alt="image"></p>
+<h5 id="ConnectorSplitSource"><a href="#ConnectorSplitSource" class="headerlink" title="ConnectorSplitSource"></a>ConnectorSplitSource</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples9.jpg" alt="image"></p>
+<h5 id="ConnectorSplit"><a href="#ConnectorSplit" class="headerlink" title="ConnectorSplit"></a>ConnectorSplit</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples10.jpg" alt="image"></p>
+<h5 id="ExampleSplitManager"><a href="#ExampleSplitManager" class="headerlink" title="ExampleSplitManager:"></a>ExampleSplitManager:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples11.jpg" alt="image"></p>
+<h5 id="ExampleSplit"><a href="#ExampleSplit" class="headerlink" title="ExampleSplit:"></a>ExampleSplit:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples12.jpg" alt="image"></p>
+<h3 id="ConnectorRecordSetProvider"><a href="#ConnectorRecordSetProvider" class="headerlink" title="ConnectorRecordSetProvider"></a>ConnectorRecordSetProvider</h3><p>Given a split and a list of columns, the record set provider is responsible for delivering data to the Presto execution engine. It creates a<code>RecordSet</code>, which in turn creates a <code>RecordCursor</code> that is used by Presto to read the column values for each row.</p>
+<h4 id="Import-Interfaces"><a href="#Import-Interfaces" class="headerlink" title="Import Interfaces:"></a>Import Interfaces:</h4><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples13.jpg" alt="image"><br><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples14.jpg" alt="image"><br><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples15.jpg" alt="image"></p>
+<h5 id="ExampleRecordSetProvider"><a href="#ExampleRecordSetProvider" class="headerlink" title="ExampleRecordSetProvider:"></a>ExampleRecordSetProvider:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples16.jpg" alt="image"></p>
+<h5 id="ExampleRecordSet"><a href="#ExampleRecordSet" class="headerlink" title="ExampleRecordSet:"></a>ExampleRecordSet:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples17.jpg" alt="image"></p>
+<h5 id="ExampleRecordCursor"><a href="#ExampleRecordCursor" class="headerlink" title="ExampleRecordCursor:"></a>ExampleRecordCursor:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples18.jpg" alt="image"><br><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples19.jpg" alt="image"></p>
+<h3 id="ConnectorHandleResolver"><a href="#ConnectorHandleResolver" class="headerlink" title="ConnectorHandleResolver"></a>ConnectorHandleResolver</h3><p>各种Handle解析器</p>
+<h5 id="Important-Interfaces"><a href="#Important-Interfaces" class="headerlink" title="Important Interfaces:"></a>Important Interfaces:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples20.jpg" alt="image"></p>
+<h5 id="ExampleHandleResolver"><a href="#ExampleHandleResolver" class="headerlink" title="ExampleHandleResolver:"></a>ExampleHandleResolver:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples21.jpg" alt="image"><br><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples22.jpg" alt="image"></p>
+<p>以<strong>Example</strong>为例:<br>ExampleColumn仅为Bean描述，一个列包含名字和列数据类型<br><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples23.jpg" alt="image"></p>
+<h5 id="ExampleColumnHandle"><a href="#ExampleColumnHandle" class="headerlink" title="ExampleColumnHandle:"></a>ExampleColumnHandle:</h5><p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples24.jpg" alt="image"><br><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/presto/presto_spi/examples25.jpg" alt="image"><br>Handle理解为动作，比如获取元数据等操作。</p>
+<p>此外，在这里的众多Handle接口基本都是空接口，可能的原因是各种数据存储之间没有办法提出公有的部分，只提供一个公有的接口。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h3><p><a href="https://prestodb.io/docs/current/develop/spi-overview.html" target="_blank" rel="external">presto spi overview</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>When you implement a new Presto plugin, you implement interfaces and override methods defined by the SPI.</p>
+<p>Plugins can provide connectors, which are the source of all data for queries in Presto. Even if your data source doesn’t have underlying tables backing it, as long as you adapt your data source to the API expected by Presto, you can write queries against this data.</p>]]>
+    
+    </summary>
+    
+      <category term="presto" scheme="http://wwww.51iwowo.com/tags/presto/"/>
+    
+      <category term="presto" scheme="http://wwww.51iwowo.com/categories/presto/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[使用Gson反序列化为Map时，整数默认转为浮点数解决方案]]></title>
+    <link href="http://wwww.51iwowo.com/2016/07/21/java_gson_map/"/>
+    <id>http://wwww.51iwowo.com/2016/07/21/java_gson_map/</id>
+    <published>2016-07-21T11:32:00.000Z</published>
+    <updated>2016-07-21T11:56:28.241Z</updated>
+    <content type="html"><![CDATA[<p>使用Gson将字符串反序列化为Map时，其中的整数会默认转为浮点数，即1会被转为1.0</p>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">String jsonStr = <span class="string">"&#123;\"integerValue\":10,\"doubleValue\":10.0&#125;"</span>;</div><div class="line">Gson gson = <span class="keyword">new</span> Gson();</div><div class="line">Map content = gson.fromJson(jsonStr, Map.class);</div><div class="line"></div><div class="line">content.forEach((k, v) -&gt; &#123;</div><div class="line">   System.out.println(<span class="string">"key:"</span> + k + <span class="string">", value:"</span> + v); </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>输出信息为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">key:integerValue, value:10.0</div><div class="line">key:doubleValue, value:10.0</div></pre></td></tr></table></figure></p>
+<p>针对该问题有两种解决方案</p>
+<h4 id="1-自定义Map类型的反序列化器"><a href="#1-自定义Map类型的反序列化器" class="headerlink" title="1. 自定义Map类型的反序列化器"></a>1. 自定义Map类型的反序列化器</h4>   <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">   String jsonStr = <span class="string">"&#123;\"integerValue\":10,\"doubleValue\":10.0&#125;"</span>;</div><div class="line">Gson gson = <span class="keyword">new</span> GsonBuilder().registerTypeAdapter(Map.class, <span class="keyword">new</span> JsonDeserializer&lt;Map&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Map <span class="title">deserialize</span><span class="params">(JsonElement json, Type typeOfT, JsonDeserializationContext context)</span> </span>&#123;</div><div class="line">        Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">        JsonObject jsonObject = json.getAsJsonObject();</div><div class="line">        Set&lt;Map.Entry&lt;String, JsonElement&gt;&gt; entrySet = jsonObject.entrySet();</div><div class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, JsonElement&gt; entry : entrySet) &#123;</div><div class="line">            map.put(entry.getKey(), entry.getValue());</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> map;</div><div class="line">    &#125;</div><div class="line">&#125;).create();</div><div class="line">Map content = gson.fromJson(jsonStr, Map.class);</div><div class="line"></div><div class="line">content.forEach((k, v) -&gt; &#123;</div><div class="line">    System.out.println(<span class="string">"key:"</span> + k + <span class="string">", value:"</span> + v);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>执行结果为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">    key:integerValue, value:10</div><div class="line">key:doubleValue, value:10.0</div></pre></td></tr></table></figure></p>
+<h4 id="2-切换Gson为jackson"><a href="#2-切换Gson为jackson" class="headerlink" title="2. 切换Gson为jackson"></a>2. 切换Gson为jackson</h4><p>因为jackson对Map类型的支持更好一些</p>
+<p><a href="https://github.com/FasterXML/jackson-databind" target="_blank" rel="external">jackson github地址</a></p>
+<p>修改项目的pom文件，添加jackson有关的依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">   	&lt;properties&gt;</div><div class="line">	&lt;!-- Use the latest version whenever possible. --&gt;</div><div class="line">	&lt;jackson.version&gt;2.7.0&lt;/jackson.version&gt;</div><div class="line">&lt;/properties&gt;</div><div class="line"></div><div class="line">&lt;dependencies&gt;</div><div class="line">	&lt;dependency&gt;</div><div class="line">		&lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;</div><div class="line">		&lt;version&gt;$&#123;jackson.version&#125;&lt;/version&gt;</div><div class="line">	&lt;/dependency&gt;</div><div class="line"></div><div class="line">	&lt;dependency&gt;</div><div class="line">		&lt;!-- Note: core-annotations version x.y.0 is generally compatible with </div><div class="line">			(identical to) version x.y.1, x.y.2, etc. --&gt;</div><div class="line">		&lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;jackson-annotations&lt;/artifactId&gt;</div><div class="line">		&lt;version&gt;$&#123;jackson.version&#125;&lt;/version&gt;</div><div class="line">	&lt;/dependency&gt;</div><div class="line">	&lt;dependency&gt;</div><div class="line">		&lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;jackson-core&lt;/artifactId&gt;</div><div class="line">		&lt;version&gt;$&#123;jackson.version&#125;&lt;/version&gt;</div><div class="line">	&lt;/dependency&gt;</div><div class="line">&lt;/denpendencies&gt;</div></pre></td></tr></table></figure>
+<p>Java代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String jsonStr = <span class="string">"&#123;\"integerValue\":10,\"doubleValue\":10.0&#125;"</span>;</div><div class="line">ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper(); <span class="comment">// create once, reuse</span></div><div class="line">Map content = mapper.readValue(jsonStr, Map.class);</div><div class="line">content.forEach((k, v) -&gt; &#123;</div><div class="line">    System.out.println(<span class="string">"key:"</span> + k + <span class="string">", value:"</span> + v);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>执行结果为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">key:integerValue, value:10</div><div class="line">key:doubleValue, value:10.0</div></pre></td></tr></table></figure></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>使用Gson将字符串反序列化为Map时，其中的整数会默认转为浮点数，即1会被转为1.0</p>]]>
+    
+    </summary>
+    
+      <category term="Gson" scheme="http://wwww.51iwowo.com/tags/Gson/"/>
+    
+      <category term="Java" scheme="http://wwww.51iwowo.com/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[hive api error:org.apache.hadoop.hive.metastore.api.MetaException Error creating transactional connection factory)]]></title>
+    <link href="http://wwww.51iwowo.com/2016/07/20/hive-mysql-transaction-factory-error/"/>
+    <id>http://wwww.51iwowo.com/2016/07/20/hive-mysql-transaction-factory-error/</id>
+    <published>2016-07-20T11:26:16.000Z</published>
+    <updated>2016-07-21T02:25:40.636Z</updated>
+    <content type="html"><![CDATA[<p>hive使用mysql作为元数据存储，通过hive api调用时，报错</p>
+<p><code>org.apache.hadoop.hive.metastore.api.MetaException Error creating transactional connection factory)</code><br><a id="more"></a><br>示例代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">HiveConf hiveConf = <span class="keyword">new</span> HiveConf();</div><div class="line"><span class="comment">// 省略其他配置信息</span></div><div class="line">Hive hive = Hive.get(hiveConf);</div><div class="line">SessionState.start(hiveConf);</div><div class="line">List&lt;String&gt; databases = hive.getAllDatabases();</div><div class="line">databases.stream().forEach(System.out::println);</div></pre></td></tr></table></figure></p>
+<p>此问题是由于没有加入mysql-java-connector依赖导致</p>
+<p>修改项目的pom文件，加入mysql依赖即可<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>hive使用mysql作为元数据存储，通过hive api调用时，报错</p>
+<p><code>org.apache.hadoop.hive.metastore.api.MetaException Error creating transactional connection factory)</code><br>]]>
+    
+    </summary>
+    
+      <category term="hive" scheme="http://wwww.51iwowo.com/tags/hive/"/>
+    
+      <category term="mysql" scheme="http://wwww.51iwowo.com/tags/mysql/"/>
+    
+      <category term="hive" scheme="http://wwww.51iwowo.com/categories/hive/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[maven error annotations are not supported in -source 1.3]]></title>
+    <link href="http://wwww.51iwowo.com/2016/07/19/maven-annotation/"/>
+    <id>http://wwww.51iwowo.com/2016/07/19/maven-annotation/</id>
+    <published>2016-07-19T11:36:28.000Z</published>
+    <updated>2016-07-21T02:25:52.842Z</updated>
+    <content type="html"><![CDATA[<p>mvn install时报<code>annotations are not supported in -source 1.3</code>解决办法<br><a id="more"></a><br>mvn install时报以下错误:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">use -source 5 or higher to enable annotations</div><div class="line"></div><div class="line">error: annotations are not supported in -source 1.3</div></pre></td></tr></table></figure>
+<p>该问题是由于maven默认使用的jdk版本为1.3问题，可通过配置pom中的compiler解决，配置如下</p>
+<pre><code class="xml"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span>  
+    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  
+    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  
+    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span>  
+        <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.6<span class="tag">&lt;/<span class="name">source</span>&gt;</span>  
+        <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.6<span class="tag">&lt;/<span class="name">target</span>&gt;</span>  
+        <span class="tag">&lt;<span class="name">encoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">encoding</span>&gt;</span>  
+    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span>  
+<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span>
+</code></pre>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>mvn install时报<code>annotations are not supported in -source 1.3</code>解决办法<br>]]>
+    
+    </summary>
+    
+      <category term="maven" scheme="http://wwww.51iwowo.com/tags/maven/"/>
+    
+      <category term="maven" scheme="http://wwww.51iwowo.com/categories/maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[maven error unmappable character for encoding ASCII]]></title>
+    <link href="http://wwww.51iwowo.com/2016/07/19/maven-error-unmapped/"/>
+    <id>http://wwww.51iwowo.com/2016/07/19/maven-error-unmapped/</id>
+    <published>2016-07-19T11:22:16.000Z</published>
+    <updated>2016-07-21T02:26:04.280Z</updated>
+    <content type="html"><![CDATA[<p>maven install报<code>unmappable character for encoding ASCII</code>错误解决方案<br><a id="more"></a><br>执行mvn install时报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error: unmappable character for encoding ASCII</div></pre></td></tr></table></figure></p>
+<p>该问题是由于编码问题，在maven的pom文件中增加以下配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;build&gt;</div><div class="line">  &lt;plugins&gt;</div><div class="line">    &lt;plugin&gt;</div><div class="line">      &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</div><div class="line">      &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</div><div class="line">      &lt;version&gt;2.3.2&lt;/version&gt;</div><div class="line">      &lt;configuration&gt;</div><div class="line">        &lt;source&gt;1.7&lt;/source&gt;</div><div class="line">        &lt;target&gt;1.7&lt;/target&gt;</div><div class="line">        &lt;encoding&gt;UTF-8&lt;/encoding&gt;</div><div class="line">      &lt;/configuration&gt;</div><div class="line">    &lt;/plugin&gt;</div><div class="line">  &lt;/plugins&gt;</div><div class="line">&lt;/build&gt;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>通过compiler的encoding指定编码解决</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>maven install报<code>unmappable character for encoding ASCII</code>错误解决方案<br>]]>
+    
+    </summary>
+    
+      <category term="maven" scheme="http://wwww.51iwowo.com/tags/maven/"/>
+    
+      <category term="maven" scheme="http://wwww.51iwowo.com/categories/maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello hexo]]></title>
+    <link href="http://wwww.51iwowo.com/2016/07/17/hello-hexo/"/>
+    <id>http://wwww.51iwowo.com/2016/07/17/hello-hexo/</id>
+    <published>2016-07-17T00:19:55.351Z</published>
+    <updated>2016-07-13T23:33:21.387Z</updated>
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<a id="more"></a>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>]]>
+    
+    </summary>
+    
+      <category term="hexo" scheme="http://wwww.51iwowo.com/tags/hexo/"/>
+    
+      <category term="hexo" scheme="http://wwww.51iwowo.com/categories/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[hexo 'Deployer not found:github'问题]]></title>
+    <link href="http://wwww.51iwowo.com/2016/07/14/hexo-deploy-problem/"/>
+    <id>http://wwww.51iwowo.com/2016/07/14/hexo-deploy-problem/</id>
+    <published>2016-07-14T01:43:10.000Z</published>
+    <updated>2016-07-14T01:53:01.754Z</updated>
+    <content type="html"><![CDATA[<p>使用hexo时报Deployer not found: github，应注意以下几个地方.</p>
+<a id="more"></a>
+<ol>
+<li><p>运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改_config.yml中的deploy下的type为git</p>
+</li>
+<li><p>修改时请注意，在yml中关键字”:”后必须有空格.</p>
+</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>使用hexo时报Deployer not found: github，应注意以下几个地方.</p>]]>
+    
+    </summary>
+    
+      <category term="hexo" scheme="http://wwww.51iwowo.com/tags/hexo/"/>
+    
+      <category term="hexo" scheme="http://wwww.51iwowo.com/categories/hexo/"/>
+    
+  </entry>
+  
+</feed>
