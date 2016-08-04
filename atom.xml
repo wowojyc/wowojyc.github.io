@@ -4,7 +4,7 @@
   <subtitle><![CDATA[I am a slow walker , but I never walk backwards .(Abraham Lincoln , American president)]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://wwww.51iwowo.com/"/>
-  <updated>2016-08-04T02:16:30.000Z</updated>
+  <updated>2016-08-04T02:23:18.159Z</updated>
   <id>http://wwww.51iwowo.com/</id>
   
   <author>
@@ -15,11 +15,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[Java并发编程的艺术读书笔记]]></title>
+    <title><![CDATA[Java并发编程的艺术读书笔记(1)]]></title>
     <link href="http://wwww.51iwowo.com/2016/08/03/java_multi_thread_read_1/"/>
     <id>http://wwww.51iwowo.com/2016/08/03/java_multi_thread_read_1/</id>
     <published>2016-08-03T13:50:00.000Z</published>
-    <updated>2016-08-04T02:16:30.000Z</updated>
+    <updated>2016-08-04T02:23:18.159Z</updated>
     <content type="html"><![CDATA[<h4 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h4><blockquote>
 <p>cpu通过时间片分配算法来循环执行任务，当任务之间切换时，需要在切换前保存上一个任务的状态，以便后续重新回到这个任务时，可以加载任务信息。</p>
 </blockquote>
