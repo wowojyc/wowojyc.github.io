@@ -16,7 +16,7 @@
 	})();
 	</script>
   
-  <title>presto | 不积跬步，无以至千里</title>
+  <title>Java并发编程的艺术读书笔记 | 不积跬步，无以至千里</title>
   <meta name="author" content="wowojyc">
   
   <meta name="description" content="To be better">
@@ -24,7 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="Java并发编程的艺术读书笔记"/>
   <meta property="og:site_name" content="不积跬步，无以至千里"/>
 
   
@@ -77,34 +77,140 @@
 </div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title category">presto</h2>
-
-<div class="archive">
-
-  <article class="post">
-	<div class="post-content">
-	  <header>
-		<time datetime="2016-07-26T12:01:00.000Z"><a href="/2016/07/26/presto_client_connection_time_out/">2016-07-26</a></time>
-		
-		  <h1 class="title"><a href="/2016/07/26/presto_client_connection_time_out/">presto客户端连接超时设置</a></h1>
-		
-	  </header>
-	</div>
-  </article>
-
-  <article class="post">
-	<div class="post-content">
-	  <header>
-		<time datetime="2016-07-26T02:32:00.000Z"><a href="/2016/07/26/presto_spi_overview/">2016-07-26</a></time>
-		
-		  <h1 class="title"><a href="/2016/07/26/presto_spi_overview/">presto spi介绍以及Example示例</a></h1>
-		
-	  </header>
-	</div>
-  </article>
-
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
 </div>
+  
+  <div class="post-content">
+    <header class="article-info clearfix">
+  <h1 itemprop="name">
+	Java并发编程的艺术读书笔记
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://wwww.51iwowo.com" title="wowojyc">wowojyc</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2016-08-03T13:50:00.000Z" itemprop="datePublished">2016-08-03</time>
+    更新日期:<time datetime="2016-08-04T02:16:30.000Z" itemprop="dateModified">2016-08-04</time>
+    
+  </p>
+</header>
+    <div class="entry">
+		
+        <h4 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h4><blockquote>
+<p>cpu通过时间片分配算法来循环执行任务，当任务之间切换时，需要在切换前保存上一个任务的状态，以便后续重新回到这个任务时，可以加载任务信息。</p>
+</blockquote>
+<a id="more"></a> 
+<h5 id="为什么说上下文切换会影响多线程的执行速度"><a href="#为什么说上下文切换会影响多线程的执行速度" class="headerlink" title="为什么说上下文切换会影响多线程的执行速度?"></a>为什么说上下文切换会影响多线程的执行速度?</h5><p>  作者举了一个非常形象的例子</p>
+<blockquote>
+<p>你正在读两本书，当读取英文书的时候，发现有某个单词不认识，这个时候你会打开中英文词典。但是在打开词典之前，你必须记住英文书读到了多少页的多少行，等查完字典明白意思之后再回来继续读书。但是这样切换会非常影响读书的效率。</p>
+</blockquote>
+<h5 id="如何减少上下文切换"><a href="#如何减少上下文切换" class="headerlink" title="如何减少上下文切换"></a>如何减少上下文切换</h5><ul>
+<li>无锁并发编程:使用某些方法避免使用锁</li>
+<li>CAS算法:不需要加锁</li>
+<li>使用最少线程：避免创建不需要的线程</li>
+<li>协程：在单线程中实现多任务调度，并在单线程中维持多个任务间的切换</li>
+</ul>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h4><p>[1] Java并发编程的艺术 方腾飞等著</p>
+
+    </div>
+    <footer>
+        
+  
+  <div class="categories">
+    <a href="/categories/Java并发编程的艺术读书笔记/">Java并发编程的艺术读书笔记</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/Java多线程/">Java多线程</a>
+  </div>
+
+		<div class="bdsharebuttonbox">
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_count" data-cmd="count"></a>
+</div>
+<script>
+window._bd_share_config=
+{
+	"common":{
+		"bdSnsKey":{},
+		"bdText":"",
+		"bdMini":"2",
+		"bdMiniList":false,
+		"bdPic":"",
+		"bdStyle":"0",
+		"bdSize":"24"
+	},
+	"share":{},
+	"image":{
+		"viewList":["qzone","tsina","tqq","renren","weixin","fbook","twi"],
+		"viewText":"分享到：",
+		"viewSize":"24"
+	},
+	"selectShare":{
+		"bdContainerClass":null,
+		"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin","fbook","twi"]
+	}
+};
+with(document)0[
+	(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)
+];
+</script>    
+        <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+ <nav id="pagination" >
+    
+    
+    <a href="/2016/07/28/python_hashlib_md5/" class="alignright next" title="python no module named _md5 hashlib 加载报错">python no module named _md5 hashlib 加载报错</a>
+    
+    <div class="clearfix"></div>
+</nav>
+
+
+
+	
+	<section id="comment">
+		<!-- 多说评论框 start -->
+		<div class="ds-thread" data-thread-key="2016/08/03/java_multi_thread_read_1/" data-title="Java并发编程的艺术读书笔记" data-url="http://wwww.51iwowo.com/2016/08/03/java_multi_thread_read_1/"></div>
+		<!-- 多说评论框 end -->
+		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+		<script type="text/javascript">
+		var duoshuoQuery = {short_name:"wowojyc"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+		</script>
+		<!-- 多说公共JS代码 end -->
+	</section>
+	
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
