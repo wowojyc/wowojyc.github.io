@@ -16,7 +16,7 @@
 	})();
 	</script>
   
-  <title>Java并发编程的艺术读书笔记(1) | 不积跬步，无以至千里</title>
+  <title>Java并发编程的艺术读书笔记(1-2) | 不积跬步，无以至千里</title>
   <meta name="author" content="wowojyc">
   
   <meta name="description" content="To be better">
@@ -24,7 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Java并发编程的艺术读书笔记(1)"/>
+  <meta property="og:title" content="Java并发编程的艺术读书笔记(1-2)"/>
   <meta property="og:site_name" content="不积跬步，无以至千里"/>
 
   
@@ -94,36 +94,28 @@
   <div class="post-content">
     <header class="article-info clearfix">
   <h1 itemprop="name">
-	Java并发编程的艺术读书笔记(1)
+	Java并发编程的艺术读书笔记(1-2)
   </h1>
   <p class="article-author">By
     
       <a href="http://wwww.51iwowo.com" title="wowojyc">wowojyc</a>
     </p>
   <p class="article-time">
-    <time datetime="2016-08-03T13:50:00.000Z" itemprop="datePublished">2016-08-03</time>
-    更新日期:<time datetime="2016-08-04T02:23:18.159Z" itemprop="dateModified">2016-08-04</time>
+    <time datetime="2016-08-04T12:02:00.000Z" itemprop="datePublished">2016-08-04</time>
+    更新日期:<time datetime="2016-08-05T02:24:03.000Z" itemprop="dateModified">2016-08-05</time>
     
   </p>
 </header>
     <div class="entry">
 		
-        <h4 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h4><blockquote>
-<p>cpu通过时间片分配算法来循环执行任务，当任务之间切换时，需要在切换前保存上一个任务的状态，以便后续重新回到这个任务时，可以加载任务信息。</p>
-</blockquote>
-<a id="more"></a> 
-<h5 id="为什么说上下文切换会影响多线程的执行速度"><a href="#为什么说上下文切换会影响多线程的执行速度" class="headerlink" title="为什么说上下文切换会影响多线程的执行速度?"></a>为什么说上下文切换会影响多线程的执行速度?</h5><p>  作者举了一个非常形象的例子</p>
-<blockquote>
-<p>你正在读两本书，当读取英文书的时候，发现有某个单词不认识，这个时候你会打开中英文词典。但是在打开词典之前，你必须记住英文书读到了多少页的多少行，等查完字典明白意思之后再回来继续读书。但是这样切换会非常影响读书的效率。</p>
-</blockquote>
-<h5 id="如何减少上下文切换"><a href="#如何减少上下文切换" class="headerlink" title="如何减少上下文切换"></a>如何减少上下文切换</h5><ul>
-<li>无锁并发编程:使用某些方法避免使用锁</li>
-<li>CAS算法:不需要加锁</li>
-<li>使用最少线程：避免创建不需要的线程</li>
-<li>协程：在单线程中实现多任务调度，并在单线程中维持多个任务间的切换</li>
-</ul>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h4><p>[1] Java并发编程的艺术 方腾飞等著</p>
-
+        <p>在多线程程序中，通过java内置的jstack命令，dump线程信息，分析线程运行情况。</p>
+<a id="more"></a>
+<h3 id="第一步-通过ps命令查看进程ID"><a href="#第一步-通过ps命令查看进程ID" class="headerlink" title="第一步:通过ps命令查看进程ID"></a>第一步:通过ps命令查看进程ID</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps -ef |grep presto</div></pre></td></tr></table></figure>
+<p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/java_multi_thread_read/ps_ef.jpg" alt="ps命令"></p>
+<h3 id="第二步-通过jstack命令dump线程信息"><a href="#第二步-通过jstack命令dump线程信息" class="headerlink" title="第二步:通过jstack命令dump线程信息"></a>第二步:通过jstack命令dump线程信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#重定向到某个文件</div><div class="line">jstack PID &gt;dump</div></pre></td></tr></table></figure>
+<h3 id="第三步-通过shell命令，统计所有线程状态"><a href="#第三步-通过shell命令，统计所有线程状态" class="headerlink" title="第三步:通过shell命令，统计所有线程状态"></a>第三步:通过shell命令，统计所有线程状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep java.lang.Thread.state dump | awk &apos;(print $2$3$4$5)&apos; | sort | uniq -c</div></pre></td></tr></table></figure>
+<p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/java_multi_thread_read/grep_awk.jpg" alt="统计信息"></p>
+<h3 id="第四步-针对特定状态下的线程，打开dump文件，分析其具体在做什么"><a href="#第四步-针对特定状态下的线程，打开dump文件，分析其具体在做什么" class="headerlink" title="第四步: 针对特定状态下的线程，打开dump文件，分析其具体在做什么"></a>第四步: 针对特定状态下的线程，打开dump文件，分析其具体在做什么</h3><h3 id="第五步-根据分析结果做相应的处理"><a href="#第五步-根据分析结果做相应的处理" class="headerlink" title="第五步:根据分析结果做相应的处理"></a>第五步:根据分析结果做相应的处理</h3>
     </div>
     <footer>
         
@@ -184,7 +176,7 @@ with(document)0[
  <nav id="pagination" >
     
     
-    <a href="/2016/07/28/python_hashlib_md5/" class="alignright next" title="python no module named _md5 hashlib 加载报错">python no module named _md5 hashlib 加载报错</a>
+    <a href="/2016/08/03/java_multi_thread_read_1_1/" class="alignright next" title="Java并发编程的艺术读书笔记(1-1)">Java并发编程的艺术读书笔记(1-1)</a>
     
     <div class="clearfix"></div>
 </nav>
@@ -194,7 +186,7 @@ with(document)0[
 	
 	<section id="comment">
 		<!-- 多说评论框 start -->
-		<div class="ds-thread" data-thread-key="2016/08/03/java_multi_thread_read_1/" data-title="Java并发编程的艺术读书笔记(1)" data-url="http://wwww.51iwowo.com/2016/08/03/java_multi_thread_read_1/"></div>
+		<div class="ds-thread" data-thread-key="2016/08/04/java_multi_thread_read_1_2/" data-title="Java并发编程的艺术读书笔记(1-2)" data-url="http://wwww.51iwowo.com/2016/08/04/java_multi_thread_read_1_2/"></div>
 		<!-- 多说评论框 end -->
 		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 		<script type="text/javascript">
@@ -227,7 +219,7 @@ with(document)0[
   
     <li><a href="/categories/Java/">Java</a><small>1</small></li>
   
-    <li><a href="/categories/Java并发编程的艺术读书笔记/">Java并发编程的艺术读书笔记</a><small>1</small></li>
+    <li><a href="/categories/Java并发编程的艺术读书笔记/">Java并发编程的艺术读书笔记</a><small>2</small></li>
   
     <li><a href="/categories/hexo/">hexo</a><small>2</small></li>
   

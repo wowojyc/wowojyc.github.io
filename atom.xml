@@ -4,7 +4,7 @@
   <subtitle><![CDATA[I am a slow walker , but I never walk backwards .(Abraham Lincoln , American president)]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://wwww.51iwowo.com/"/>
-  <updated>2016-08-04T02:23:18.159Z</updated>
+  <updated>2016-08-05T02:24:03.000Z</updated>
   <id>http://wwww.51iwowo.com/</id>
   
   <author>
@@ -15,11 +15,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[Java并发编程的艺术读书笔记(1)]]></title>
-    <link href="http://wwww.51iwowo.com/2016/08/03/java_multi_thread_read_1/"/>
-    <id>http://wwww.51iwowo.com/2016/08/03/java_multi_thread_read_1/</id>
+    <title><![CDATA[Java并发编程的艺术读书笔记(1-2)]]></title>
+    <link href="http://wwww.51iwowo.com/2016/08/04/java_multi_thread_read_1_2/"/>
+    <id>http://wwww.51iwowo.com/2016/08/04/java_multi_thread_read_1_2/</id>
+    <published>2016-08-04T12:02:00.000Z</published>
+    <updated>2016-08-05T02:24:03.000Z</updated>
+    <content type="html"><![CDATA[<p>在多线程程序中，通过java内置的jstack命令，dump线程信息，分析线程运行情况。</p>
+<a id="more"></a>
+<h3 id="第一步-通过ps命令查看进程ID"><a href="#第一步-通过ps命令查看进程ID" class="headerlink" title="第一步:通过ps命令查看进程ID"></a>第一步:通过ps命令查看进程ID</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps -ef |grep presto</div></pre></td></tr></table></figure>
+<p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/java_multi_thread_read/ps_ef.jpg" alt="ps命令"></p>
+<h3 id="第二步-通过jstack命令dump线程信息"><a href="#第二步-通过jstack命令dump线程信息" class="headerlink" title="第二步:通过jstack命令dump线程信息"></a>第二步:通过jstack命令dump线程信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#重定向到某个文件</div><div class="line">jstack PID &gt;dump</div></pre></td></tr></table></figure>
+<h3 id="第三步-通过shell命令，统计所有线程状态"><a href="#第三步-通过shell命令，统计所有线程状态" class="headerlink" title="第三步:通过shell命令，统计所有线程状态"></a>第三步:通过shell命令，统计所有线程状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep java.lang.Thread.state dump | awk &apos;(print $2$3$4$5)&apos; | sort | uniq -c</div></pre></td></tr></table></figure>
+<p><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/java_multi_thread_read/grep_awk.jpg" alt="统计信息"></p>
+<h3 id="第四步-针对特定状态下的线程，打开dump文件，分析其具体在做什么"><a href="#第四步-针对特定状态下的线程，打开dump文件，分析其具体在做什么" class="headerlink" title="第四步: 针对特定状态下的线程，打开dump文件，分析其具体在做什么"></a>第四步: 针对特定状态下的线程，打开dump文件，分析其具体在做什么</h3><h3 id="第五步-根据分析结果做相应的处理"><a href="#第五步-根据分析结果做相应的处理" class="headerlink" title="第五步:根据分析结果做相应的处理"></a>第五步:根据分析结果做相应的处理</h3>]]></content>
+    <summary type="html">
+    <![CDATA[<p>在多线程程序中，通过java内置的jstack命令，dump线程信息，分析线程运行情况。</p>]]>
+    
+    </summary>
+    
+      <category term="Java多线程" scheme="http://wwww.51iwowo.com/tags/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+      <category term="Java并发编程的艺术读书笔记" scheme="http://wwww.51iwowo.com/categories/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Java并发编程的艺术读书笔记(1-1)]]></title>
+    <link href="http://wwww.51iwowo.com/2016/08/03/java_multi_thread_read_1_1/"/>
+    <id>http://wwww.51iwowo.com/2016/08/03/java_multi_thread_read_1_1/</id>
     <published>2016-08-03T13:50:00.000Z</published>
-    <updated>2016-08-04T02:23:18.159Z</updated>
+    <updated>2016-08-05T02:30:23.207Z</updated>
     <content type="html"><![CDATA[<h4 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h4><blockquote>
 <p>cpu通过时间片分配算法来循环执行任务，当任务之间切换时，需要在切换前保存上一个任务的状态，以便后续重新回到这个任务时，可以加载任务信息。</p>
 </blockquote>
