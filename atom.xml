@@ -4,7 +4,7 @@
   <subtitle><![CDATA[I am a slow walker , but I never walk backwards .(Abraham Lincoln , American president)]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://wwww.51iwowo.com/"/>
-  <updated>2016-08-05T02:24:03.000Z</updated>
+  <updated>2016-08-24T11:15:41.000Z</updated>
   <id>http://wwww.51iwowo.com/</id>
   
   <author>
@@ -13,6 +13,51 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[python SQLAlchemy数据库连接池使用问题]]></title>
+    <link href="http://wwww.51iwowo.com/2016/08/24/python_mysql_pool/"/>
+    <id>http://wwww.51iwowo.com/2016/08/24/python_mysql_pool/</id>
+    <published>2016-08-24T11:32:00.000Z</published>
+    <updated>2016-08-24T11:15:41.000Z</updated>
+    <content type="html"><![CDATA[<p>在使用SQLAlchemy做MySQl数据库访问时，遇到了连接池的问题，导致MySQL连接达到最大可允许连接上限，连接拒绝情况。</p>
+<a id="more"></a>
+<p>说一下我的应用情况，单线程访问数据库，在单个线程中会涉及到多次数据库操作，并且有个别操作非常耗时，为了避免数据库常连接问题，这里我们采取的方案是<strong>每次重新连接数据库</strong></p>
+<h4 id="遇到的问题："><a href="#遇到的问题：" class="headerlink" title="遇到的问题："></a>遇到的问题：</h4><ol>
+<li>其实单线程的应用没有必要使用数据库连接池</li>
+<li>原有代码在每次访问时都会走一遍以下的代码逻辑，导致建立多个连接池</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">engine = create_engine(self.conn_str, echo=<span class="keyword">False</span>, pool_recycle=<span class="number">7200</span>, pool_size=<span class="number">10</span>)</div><div class="line">Session = sessionmaker()</div><div class="line">Session.configure(bind=engine, autocommit=<span class="keyword">True</span>)</div><div class="line">session = Session()</div><div class="line">self.session = session</div></pre></td></tr></table></figure>
+<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4><ol>
+<li>针对第一个问题，需要去掉连接池，改为直连数据库，<a href="http://www.tuicool.com/articles/Ybmemy" target="_blank" rel="external">参考此文章</a><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">engine = create_engine(self.conn_str, echo=<span class="keyword">False</span>, poolclass=NullPool)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>针对第二个问题，应该修改为针对单个线程，共用一个engine, 对于每次数据库访问仅实例化不同的session即可。</li>
+</ol>
+<h4 id="分析过程："><a href="#分析过程：" class="headerlink" title="分析过程："></a>分析过程：</h4><p>针对应用场景，编写了以下的示例代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#! encoding=utf-8</span></div><div class="line"><span class="comment"># 导入:</span></div><div class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, String, create_engine</div><div class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker</div><div class="line"><span class="keyword">from</span> sqlalchemy.ext.declarative <span class="keyword">import</span> declarative_base</div><div class="line"><span class="keyword">from</span> sqlalchemy.pool <span class="keyword">import</span> NullPool</div><div class="line"><span class="keyword">import</span> time</div><div class="line"></div><div class="line"></div><div class="line">Base = declarative_base()</div><div class="line"></div><div class="line"><span class="comment"># 定义User对象:</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(Base)</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, id, name)</span>:</span></div><div class="line">        self.id = id</div><div class="line">        self.name = name</div><div class="line">    <span class="comment"># 表的名字:</span></div><div class="line">    __tablename__ = <span class="string">'user'</span></div><div class="line"></div><div class="line">    <span class="comment"># 表的结构:</span></div><div class="line">    id = Column(String(<span class="number">20</span>), primary_key=<span class="keyword">True</span>)</div><div class="line">    name = Column(String(<span class="number">20</span>))</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 初始化数据库连接:</span></div><div class="line">engine = create_engine(<span class="string">"mysql://root:123456@127.0.0.1:3306/local_test"</span>, echo=<span class="keyword">False</span>, pool_recycle=<span class="number">7200</span>)</div><div class="line"><span class="comment"># 创建DBSession类型:</span></div><div class="line">DBSession = sessionmaker(bind=engine, autocommit=<span class="keyword">True</span>)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">'add record'</span></div><div class="line"><span class="comment"># 创建session对象:</span></div><div class="line">session = DBSession()</div><div class="line">session.begin(subtransactions=<span class="keyword">True</span>)</div><div class="line"><span class="comment"># 创建新User对象:</span></div><div class="line">new_user = User(id=<span class="string">'5'</span>, name=<span class="string">'Bob'</span>)</div><div class="line"><span class="comment"># 添加到session:</span></div><div class="line">session.add(new_user)</div><div class="line"><span class="comment"># 提交即保存到数据库:</span></div><div class="line">session.commit()</div><div class="line"><span class="comment"># 关闭session:</span></div><div class="line">session.close()</div><div class="line">time.sleep(<span class="number">10</span>)</div><div class="line"></div><div class="line"><span class="comment"># # 初始化数据库连接:</span></div><div class="line"><span class="comment"># engine = create_engine("mysql://root:123456@127.0.0.1:3306/local_test", echo=False, pool_recycle=7200)</span></div><div class="line"><span class="comment"># # 创建DBSession类型:</span></div><div class="line"><span class="comment"># DBSession = sessionmaker(bind=engine, autocommit=True)</span></div><div class="line"><span class="keyword">print</span> <span class="string">'query record'</span></div><div class="line"><span class="comment"># 创建Session:</span></div><div class="line">session = DBSession()</div><div class="line">session.begin(subtransactions=<span class="keyword">True</span>)</div><div class="line"><span class="comment"># 创建Query查询，filter是where条件，最后调用one()返回唯一行，如果调用all()则返回所有行:</span></div><div class="line">user = session.query(User).filter(User.id==<span class="string">'5'</span>).one()</div><div class="line"><span class="comment"># 打印类型和对象的name属性:</span></div><div class="line"><span class="keyword">print</span> <span class="string">'type:'</span>, type(user)</div><div class="line"><span class="keyword">print</span> <span class="string">'name:'</span>, user.name</div><div class="line"><span class="comment"># session.commit()</span></div><div class="line"><span class="comment"># 关闭Session:</span></div><div class="line">session.close()</div><div class="line">time.sleep(<span class="number">10</span>)</div><div class="line"></div><div class="line"><span class="comment"># # 初始化数据库连接:</span></div><div class="line"><span class="comment"># engine = create_engine("mysql://root:123456@127.0.0.1:3306/local_test", echo=False, pool_recycle=7200)</span></div><div class="line"><span class="comment"># # 创建DBSession类型:</span></div><div class="line"><span class="comment"># DBSession = sessionmaker(bind=engine, autocommit=True)</span></div><div class="line"><span class="keyword">print</span> <span class="string">'delete record'</span></div><div class="line"><span class="comment"># 创建Session:</span></div><div class="line">session = DBSession()</div><div class="line">session.begin(subtransactions=<span class="keyword">True</span>)</div><div class="line"><span class="comment"># delete操作</span></div><div class="line">session.delete(new_user)</div><div class="line">session.commit()</div><div class="line"><span class="comment"># 关闭Session:</span></div><div class="line">session.close()</div><div class="line">time.sleep(<span class="number">10</span>)</div></pre></td></tr></table></figure></p>
+<h5 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h5><ol>
+<li>如果将engine在每次执行操作前都进行初始化，则会导致数据库连接数为<strong>3</strong>，而如果共用一个engine，则连接数为<strong>1</strong><br><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/python/mysql_pool.jpg" alt="每次初始化engine"></li>
+<li>如果采用了数据库连接池，对于session.close并非真正将连接关闭，而仅仅是将连接重新交回连接池，session.commit()也会有此效果。</li>
+<li>关于数据库连接池中的连接，默认情况下，连接个数为5；但是我看到的情况是，假设你只有一个数据库操作，真正的连接数为1；而如果你有10个操作，连接池中的连接才会有5个。<blockquote>
+<p>也就是说，该连接池的并非在启动时已经实例化好了数据库连接，而是按需初始化。</p>
+</blockquote>
+</li>
+</ol>
+<p>查看资料印证了自己的想法：<br><img src="http://7xwqvv.com1.z0.glb.clouddn.com/image/python/mysql_pool_principle.jpg" alt="连接池原理"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>在使用SQLAlchemy做MySQl数据库访问时，遇到了连接池的问题，导致MySQL连接达到最大可允许连接上限，连接拒绝情况。</p>]]>
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://wwww.51iwowo.com/tags/mysql/"/>
+    
+      <category term="python" scheme="http://wwww.51iwowo.com/tags/python/"/>
+    
+      <category term="python" scheme="http://wwww.51iwowo.com/categories/python/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Java并发编程的艺术读书笔记(1-2)]]></title>
